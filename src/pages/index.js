@@ -1,0 +1,12 @@
+export { default as RootLayout } from "./_root/RootLayout";
+export { default as SiginForm } from "./_auth/SigninForm";
+export { default as SignupForm } from "./_auth/SignupForm";
+export { default as ErrorPage } from "./_root/ErrorPage";
+export { default as HomePage } from "./_root/Home";
+export { default as StaticPage } from "./_root/StaticPage";
+export { default as AdminPage } from "./_root/Admin";
+export { default as AddProductPage } from "./_root/AddProduct";
+export { default as CategoryPage } from "./_root/Category";
+export { default as SearchDataPage } from "./_root/SearchData";
+export { default as ProductDetailsPage } from "./_root/ProductDetails";
+export { default as CartPage } from "./_root/Cart";

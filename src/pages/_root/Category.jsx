@@ -1,0 +1,99 @@
+import { useEffect, useState } from "react";
+import { useParams, useLocation, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getProductsData } from "../../redux/product/product-actions";
+import ProductsParentCard from "../../components/ui/ProductsParentCard";
+import UserProduct from "../../components/Main/UserProduct";
+import AdminProduct from "../../components/Main/AdminProduct";
+
+import { MdArrowBack } from "react-icons/md";
+
+const CategoryPage = () => {
+  const dispatch = useDispatch();
+  const { state } = useLocation();
+
+  const products = useSelector((state) => state.products.products);
+  const { categoryId } = useParams();
+
+  const categoryKey = Object.keys(products).find((key) => key === categoryId);
+
+  const categoryProducts = products[categoryKey];
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (!products || Object.keys(products).length === 0) {
+      setIsLoading(true);
+      dispatch(getProductsData())
+        .catch(() => setIsError(true))
+        .finally(() => setIsLoading(false));
+    }
+  }, [dispatch]);
+
+  if (isError) {
+    return (
+      <div className="pt-14 px-4 flex justify-center items-center">
+        <p className="text-red-500 md:text-2xl xs:text-xl text-lg">
+          There's an error while loading products! check your internet
+        </p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <p className="mt-10 text-center text-2xl text-[#2C3E50]">Loading....</p>
+    );
+  }
+
+  if (!categoryProducts) {
+    return (
+      <p className="p-6 text-center lg:text-2xl md:text-xl text-lg text-[#1E2A5E]">
+        No Products found in this category.
+      </p>
+    );
+  }
+
+  if (state?.pathname === "/admin") {
+    return (
+      <div className="p-4 flex flex-col gap-7">
+        <Link to="/admin" className="text-xl underline text-blue-600">
+          <MdArrowBack size={30} />
+        </Link>
+        <ProductsParentCard className="p-4">
+          {categoryProducts.map((val) => (
+            <AdminProduct
+              key={val.id}
+              id={val.id}
+              src={val.imageUrl}
+              title={val.title}
+              price={val.price}
+              category={val.category}
+              description={val.description}
+            />
+          ))}
+        </ProductsParentCard>
+      </div>
+    );
+  }
+
+  return (
+    <ProductsParentCard className="p-4">
+      {categoryProducts.map((val) => (
+        <UserProduct
+          key={val.id}
+          id={val.id}
+          src={val.imageUrl}
+          title={val.title}
+          price={val.price}
+          category={val.category}
+          description={val.description}
+        />
+      ))}
+    </ProductsParentCard>
+  );
+};
+
+export default CategoryPage;
