@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       { path: "admin", element: <AdminPage /> },
       { path: "admin/product-details", element: <ProductDetailsPage /> },
       { path: "admin/add-product", element: <AddProductPage /> },
-      { path: "footer/:page", element: <StaticPage /> },
+      { path: "footer/:pageId", element: <StaticPage /> },
     ],
   },
 

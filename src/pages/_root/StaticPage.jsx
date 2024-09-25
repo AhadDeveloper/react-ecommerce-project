@@ -4,13 +4,13 @@ import { useParams, Link } from "react-router-dom";
 import { pages } from "../../constants";
 
 const StaticPage = () => {
-  const { page } = useParams();
+  const { pageId } = useParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [page]);
+  }, [pageId]);
 
-  if (!pages[page]) {
+  if (!pages[pageId]) {
     return (
       <div className="mt-5">
         <h1 className="text-center lg:text-3xl text-2xl text-red-500">
@@ -23,10 +23,10 @@ const StaticPage = () => {
   return (
     <div className="mt-5">
       <h1 className="text-center md:text-2xl text-xl font-semibold">
-        {pages[page].title}
+        {pages[pageId].title}
       </h1>
       <p className="py-5 px-4 md:text-xl text-lg text-justify">
-        {pages[page].description}
+        {pages[pageId].description}
       </p>
       <div className="flex justify-center mb-16 mt-4">
         <Link

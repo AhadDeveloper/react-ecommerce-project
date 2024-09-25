@@ -99,7 +99,7 @@ const Footer = () => {
           <div className="flex text-2xl gap-6">
             <Link
               className="p-1 hover:border"
-              to="https://www.facebook.com/"
+              to="https://www.facebook.com/profile.php?id=100015731833881"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -107,7 +107,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.linkedin.com/"
+              to="https://www.linkedin.com/in/muhammad-ahad-8268a8271/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -115,7 +115,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.instagram.com/"
+              to="https://www.instagram.com/abdul_ahad_055/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -123,7 +123,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.tiktok.com/"
+              to="https://www.tiktok.com/@m_ahad_0005"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -131,7 +131,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.youtube.com/"
+              to="https://www.youtube.com/@AhadBrawlStars"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -139,7 +139,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.twitter.com/"
+              to="https://x.com/Ahad75366?t=82dLeCH2Odb_mxFO2TLVFg&s=08"
               target="_blank"
               rel="noopener noreferrer"
             >
