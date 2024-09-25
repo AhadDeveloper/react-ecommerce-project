@@ -4,7 +4,6 @@ const initialState = {
   products: {
     electronics: [],
   },
-  productDetails: {},
 };
 
 const productSlice = createSlice({
@@ -24,9 +23,6 @@ const productSlice = createSlice({
       });
 
       state.products = updatedProducts;
-    },
-    productDetailsHandler: (state, action) => {
-      state.productDetails = action.payload;
     },
   },
 });
