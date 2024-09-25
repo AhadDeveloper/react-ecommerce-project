@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,16 +8,19 @@ import UserProduct from "../../components/Main/UserProduct";
 import AdminProduct from "../../components/Main/AdminProduct";
 
 import { MdArrowBack } from "react-icons/md";
+import context from "../../context/context";
 
 const CategoryPage = () => {
   const dispatch = useDispatch();
   const { state } = useLocation();
 
+  const { getItemFromLocalStorage } = useContext(context);
+  const role = getItemFromLocalStorage()?.role;
+
   const products = useSelector((state) => state.products.products);
   const { categoryId } = useParams();
 
   const categoryKey = Object.keys(products).find((key) => key === categoryId);
-
   const categoryProducts = products[categoryKey];
 
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +59,7 @@ const CategoryPage = () => {
     );
   }
 
-  if (state?.pathname === "/admin") {
+  if (state?.pathname === "/admin" && role === "admin") {
     return (
       <div className="p-4 flex flex-col gap-7">
         <Link to="/admin" className="text-xl underline text-blue-600">
@@ -80,19 +83,24 @@ const CategoryPage = () => {
   }
 
   return (
-    <ProductsParentCard className="p-4">
-      {categoryProducts.map((val) => (
-        <UserProduct
-          key={val.id}
-          id={val.id}
-          src={val.imageUrl}
-          title={val.title}
-          price={val.price}
-          category={val.category}
-          description={val.description}
-        />
-      ))}
-    </ProductsParentCard>
+    <div className="p-4 flex flex-col gap-7">
+      <Link to="/" className="text-xl underline text-blue-600">
+        <MdArrowBack size={30} />
+      </Link>
+      <ProductsParentCard className="p-4">
+        {categoryProducts.map((val) => (
+          <UserProduct
+            key={val.id}
+            id={val.id}
+            src={val.imageUrl}
+            title={val.title}
+            price={val.price}
+            category={val.category}
+            description={val.description}
+          />
+        ))}
+      </ProductsParentCard>
+    </div>
   );
 };
 

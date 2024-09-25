@@ -81,11 +81,7 @@ const ProductDetailsManage = ({
   return (
     <div className="px-6 pt-8 pb-16 flex flex-col gap-14">
       <div className="flex items-center justify-start">
-        <Link
-          to=".."
-          relative="path"
-          className="text-xl underline text-blue-600"
-        >
+        <Link to={-1} className="text-xl underline text-blue-600">
           <MdArrowBack size={30} />
         </Link>
         <h1 className="flex-grow lg:text-3xl text-2xl text-[#604CC3] font-bold text-center">

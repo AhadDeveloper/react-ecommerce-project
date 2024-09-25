@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 
+import context from "../../context/context";
 import ProductsParentCard from "../../components/ui/ProductsParentCard";
 import UserProduct from "../../components/Main/UserProduct";
 import AdminProduct from "../../components/Main/AdminProduct";
 
 const SearchDataPage = () => {
   const { state } = useLocation();
+  const { getItemFromLocalStorage } = useContext(context);
+  const role = getItemFromLocalStorage()?.role;
 
   if (state.newProducts.length === 0) {
     return (
@@ -16,7 +20,7 @@ const SearchDataPage = () => {
     );
   }
 
-  if (state?.pathname === "/admin") {
+  if (state?.pathname === "/admin" && role === "admin") {
     return (
       <div className="p-4 flex flex-col gap-7">
         <Link to="/admin" className="text-xl underline text-blue-600">

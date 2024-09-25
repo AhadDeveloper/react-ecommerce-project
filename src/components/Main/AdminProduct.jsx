@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { deleteProduct } from "../../redux/product/product-actions";
-import { productActions } from "../../redux/product/product-slice";
 
 const AdminProduct = ({ id, src, title, description, price, category }) => {
   const navigate = useNavigate();
@@ -12,19 +11,6 @@ const AdminProduct = ({ id, src, title, description, price, category }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  const productDetailsHandler = () => {
-    const productDetails = {
-      id,
-      src,
-      title,
-      price,
-      description,
-      category,
-    };
-    dispatch(productActions.productDetailsHandler(productDetails));
-    navigate("/admin/product-details");
-  };
 
   const editHandler = () => {
     navigate("/admin/add-product", {
@@ -62,10 +48,10 @@ const AdminProduct = ({ id, src, title, description, price, category }) => {
 
   return (
     <>
-      <div className="bg-white flex flex-col hover:shadow-custom-dark w-48 md:w-[23%] lg:w-[18%] xl:w-[15.5%] 2xl:w-[13%] h-80 rounded-md">
+      <div className="bg-white flex flex-col hover:shadow-custom-dark w-[85%] xxs:w-48 md:w-[23%] lg:w-[18%] xl:w-[15.5%] 2xl:w-[13%] h-80 rounded-md">
         <img
           src={src}
-          onClick={productDetailsHandler}
+          onClick={() => navigate("/admin/product-details/" + id)}
           className="w-full h-52 rounded-t-md object-cover cursor-pointer"
         />
         <div className="py-2 px-2 flex flex-col">

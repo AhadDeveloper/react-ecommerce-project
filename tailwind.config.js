@@ -5,6 +5,7 @@ export default {
     extend: {
       screens: {
         xs: "570px",
+        xxs: "460px",
       },
       boxShadow: {
         "custom-light": "0 4px 6px rgba(0, 0, 0, 0.1)",
