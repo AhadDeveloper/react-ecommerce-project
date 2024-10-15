@@ -14,6 +14,7 @@ const UserProduct = ({ id, src, title, price, description, category }) => {
     >
       <img
         src={src}
+        alt="product image"
         className="w-full xxs:h-52 h-60 rounded-t-md object-cover"
       />
       <div className="py-2 px-2 flex flex-col">

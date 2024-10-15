@@ -51,6 +51,7 @@ const AdminProduct = ({ id, src, title, description, price, category }) => {
       <div className="bg-white flex flex-col hover:shadow-custom-dark w-[85%] xxs:w-48 md:w-[23%] lg:w-[18%] xl:w-[15.5%] 2xl:w-[13%] h-80 rounded-md">
         <img
           src={src}
+          alt="product image"
           onClick={() => navigate("/admin/product-details/" + id)}
           className="w-full h-52 rounded-t-md object-cover cursor-pointer"
         />
