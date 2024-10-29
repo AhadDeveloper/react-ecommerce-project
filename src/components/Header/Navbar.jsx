@@ -9,11 +9,13 @@ import context from "../../context/context";
 import Input from "../ui/Input";
 import useSearch from "../../hooks/useSearch";
 import { getFromCart } from "../../redux/cart/cart-actions";
+import useEmailKey from "../../hooks/useEmailKey";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ctx = useContext(context);
+  const { emailKey } = useEmailKey(ctx.getItemFromLocalStorage()?.email);
   const cart = useSelector((state) => state.cart.cart);
   const isSignin = ctx.getItemFromLocalStorage();
 
@@ -23,7 +25,7 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    dispatch(getFromCart());
+    dispatch(getFromCart(emailKey));
   }, []);
 
   const searchHandler = useCallback(() => {

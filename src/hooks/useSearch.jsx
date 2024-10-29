@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const useSearch = () => {
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.adminProducts);
 
   const doSearch = (val) => {
     const newProducts = [];

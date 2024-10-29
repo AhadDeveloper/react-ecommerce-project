@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
-import { sendSignupData } from "../../redux/auth/auth-actions";
+import { sendSignupData, fetchSignupData } from "../../redux/auth/auth-actions";
 import context from "../../context/context";
 
 const initialValues = {
@@ -34,6 +34,7 @@ const sigupSchema = z
 const SignupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const siginData = useSelector((state) => state.auth.signin);
 
   const ctx = useContext(context);
 
@@ -54,19 +55,35 @@ const SignupForm = () => {
 
   const submitHandler = (data) => {
     setIsSubmitting(true);
-    dispatch(sendSignupData(data))
+
+    dispatch(fetchSignupData())
       .then(() => {
-        ctx.setItemToLocalStorage(data.email, data.role);
-        reset();
-        navigate("/");
+        const isUserExist = siginData.find((user) => user.email === data.email);
+        if (isUserExist) {
+          setError("root", { type: "manual", message: "Email already exist" });
+          setIsSubmitting(false);
+        } else {
+          const myEmail = data.email.split("@")[0];
+          dispatch(sendSignupData(data, myEmail, data.role))
+            .then(() => {
+              ctx.setItemToLocalStorage(data.email, data.role);
+              reset();
+              navigate("/");
+            })
+            .catch((err) => {
+              setError("root", {
+                type: "manual",
+                message: "There's an error while sending data",
+              });
+            })
+            .finally(() => setIsSubmitting(false));
+        }
       })
       .catch((err) => {
         setError("root", {
           type: "manual",
-          message: "There's an error while sending data",
+          message: "Unknown error occured",
         });
-      })
-      .finally(() => {
         setIsSubmitting(false);
       });
   };

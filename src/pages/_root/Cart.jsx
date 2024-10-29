@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import context from "../../context/context";
+import useEmailKey from "../../hooks/useEmailKey";
 import CartItem from "../../components/Cart/CartItem";
 import { getFromCart } from "../../redux/cart/cart-actions";
 import { MdArrowBack } from "react-icons/md";
@@ -9,18 +11,19 @@ import { MdArrowBack } from "react-icons/md";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cart);
+  const { getItemFromLocalStorage } = useContext(context);
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
 
   let totalPrice = 0;
 
   cartItems.forEach((item) => (totalPrice += item.price));
-  console.log(totalPrice);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getFromCart())
+    dispatch(getFromCart(emailKey))
       .then(() => setIsError(false))
       .catch(() => setIsError(true))
       .finally(() => setIsLoading(false));

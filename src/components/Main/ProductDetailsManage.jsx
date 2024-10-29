@@ -2,6 +2,8 @@ import { useState, useReducer, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
+import context from "../../context/context";
+import useEmailKey from "../../hooks/useEmailKey";
 import { addToCart, getFromCart } from "../../redux/cart/cart-actions";
 import useFormattedCategory from "../../hooks/useFormattedCategory";
 import { MdArrowBack } from "react-icons/md";
@@ -34,7 +36,12 @@ const ProductDetailsManage = ({
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
+  const [userErrorMsg, setUserErrorMsg] = useState(false);
+
   const disableBtn = quantity <= 1;
+  const { getItemFromLocalStorage } = useContext(context);
+  const userInfo = getItemFromLocalStorage();
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
 
   const { formattedCategory } = useFormattedCategory(category);
 
@@ -45,6 +52,10 @@ const ProductDetailsManage = ({
   });
 
   const cartHandler = () => {
+    if (!userInfo) {
+      setUserErrorMsg(true);
+      return;
+    }
     dispatchCartReducer({ type: "LOADING", isLoading: true });
     const cartData = {
       title,
@@ -55,7 +66,7 @@ const ProductDetailsManage = ({
       quantity,
     };
 
-    dispatch(addToCart(cartData))
+    dispatch(addToCart(cartData, emailKey))
       .then(() => {
         dispatchCartReducer({
           type: "ERROR",
@@ -63,7 +74,7 @@ const ProductDetailsManage = ({
           isSuccessful: true,
         });
 
-        return dispatch(getFromCart());
+        return dispatch(getFromCart(emailKey));
       })
       .then(() => {
         dispatchCartReducer({ type: "LOADING", isLoading: false });
@@ -140,6 +151,11 @@ const ProductDetailsManage = ({
                 {cartState.isLoading ? "Loading..." : "Add To Cart"}
               </button>
             </div>
+            {userErrorMsg && (
+              <p className="text-red-700 text-lg">
+                Login first before you add to cart
+              </p>
+            )}
             {cartState.isError && (
               <p className="text-red-700 text-lg">Can't add Try again...</p>
             )}

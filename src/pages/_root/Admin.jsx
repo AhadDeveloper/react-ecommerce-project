@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import context from "../../context/context";
-import { getProductsData } from "../../redux/product/product-actions";
+import { getAdminProductsData } from "../../redux/product/product-actions";
 
 import AdminProduct from "../../components/Main/AdminProduct";
 import ProductsParentCard from "../../components/ui/ProductsParentCard";
+import useEmailKey from "../../hooks/useEmailKey";
 
 const AdminPage = () => {
-  const ctx = useContext(context);
-  const role = ctx.getItemFromLocalStorage()?.role;
+  const { getItemFromLocalStorage } = useContext(context);
+  const role = getItemFromLocalStorage()?.role;
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
 
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.adminProducts);
 
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +26,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(getProductsData())
+    dispatch(getAdminProductsData(emailKey))
       .then(() => setIsLoading(false))
       .catch((err) => setIsError(true));
   }, [dispatch]);

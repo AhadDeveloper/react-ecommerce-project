@@ -1,12 +1,16 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { deleteProduct } from "../../redux/product/product-actions";
+import context from "../../context/context";
+import useEmailKey from "../../hooks/useEmailKey";
 
 const AdminProduct = ({ id, src, title, description, price, category }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { getItemFromLocalStorage } = useContext(context);
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
 
   const [showPopup, setShowPopup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,7 +32,7 @@ const AdminProduct = ({ id, src, title, description, price, category }) => {
 
   const deleteHandler = () => {
     setIsSubmitting(true);
-    dispatch(deleteProduct(category, id))
+    dispatch(deleteProduct(category, id, emailKey))
       .then(() => {
         setIsError(false);
         setIsSubmitting(false);

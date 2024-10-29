@@ -17,7 +17,7 @@ const CategoryPage = () => {
   const { getItemFromLocalStorage } = useContext(context);
   const role = getItemFromLocalStorage()?.role;
 
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.adminProducts);
   const { categoryId } = useParams();
 
   const categoryKey = Object.keys(products).find((key) => key === categoryId);

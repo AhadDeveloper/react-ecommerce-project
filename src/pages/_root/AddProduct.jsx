@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import axios from "axios";
 
+import context from "../../context/context";
 import { addNewProduct } from "../../redux/product/product-actions";
 import { editProductData } from "../../redux/product/product-actions";
+import useEmailKey from "../../hooks/useEmailKey";
 
 const addProductSchema = z.object({
   title: z.string().min(5, "Title should be at least 5 characters long"),
@@ -46,6 +48,8 @@ const AddProductPage = () => {
 
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { getItemFromLocalStorage } = useContext(context);
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageUrl, setImageUrl] = useState(state?.src || null);
@@ -114,7 +118,7 @@ const AddProductPage = () => {
   };
 
   const editProduct = (data, category, id) => {
-    dispatch(editProductData(data, category, id))
+    dispatch(editProductData(data, category, id, emailKey))
       .then(() => {
         reset(initialValues);
         navigate("/admin");
@@ -156,7 +160,7 @@ const AddProductPage = () => {
     if (state?.pageTitle) {
       editProduct(formattedData, category, state?.id);
     } else {
-      dispatch(addNewProduct(formattedData, category))
+      dispatch(addNewProduct(formattedData, category, emailKey))
         .then(() => {
           reset(initialValues);
           navigate("/admin");

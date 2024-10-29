@@ -4,6 +4,9 @@ const initialState = {
   products: {
     electronics: [],
   },
+  adminProducts: {
+    electronics: [],
+  },
 };
 
 const productSlice = createSlice({
@@ -12,6 +15,9 @@ const productSlice = createSlice({
   reducers: {
     setProducts(state, action) {
       state.products = action.payload;
+    },
+    setAdminProducts(state, action) {
+      state.adminProducts = action.payload;
     },
     deleteProduct: (state, action) => {
       const updatedProducts = {};
@@ -22,7 +28,7 @@ const productSlice = createSlice({
         updatedProducts[categoryKey] = categoryProducts;
       });
 
-      state.products = updatedProducts;
+      state.adminProducts = updatedProducts;
     },
   },
 });

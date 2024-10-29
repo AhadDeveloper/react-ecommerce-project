@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 
+import context from "../../context/context";
+import useEmailKey from "../../hooks/useEmailKey";
 import useFormattedCategory from "../../hooks/useFormattedCategory";
 import { deleteItemFromCart } from "../../redux/cart/cart-actions";
 
 const CartItem = ({ id, title, price, category, quantity, src }) => {
   const dispatch = useDispatch();
+  const { getItemFromLocalStorage } = useContext(context);
+  const { emailKey } = useEmailKey(getItemFromLocalStorage()?.email);
   const { formattedCategory } = useFormattedCategory(category);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const removeItemHandler = () => {
     setIsLoading(true);
-    dispatch(deleteItemFromCart(id)).finally(() => setIsLoading(false));
+    dispatch(deleteItemFromCart(id, emailKey)).finally(() =>
+      setIsLoading(false)
+    );
   };
 
   return (

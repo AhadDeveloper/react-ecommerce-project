@@ -1,10 +1,10 @@
 import { cartActions } from "./cart-slice";
 
-export const addToCart = (data) => {
+export const addToCart = (data, emailKey) => {
   return async (dispatch) => {
     const postDataToCart = async () => {
       const response = await fetch(
-        "https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/cart.json",
+        `https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/users/${emailKey}/cart.json`,
         {
           method: "POST",
           headers: {
@@ -27,11 +27,11 @@ export const addToCart = (data) => {
   };
 };
 
-export const getFromCart = () => {
+export const getFromCart = (emailKey) => {
   return async (dispatch) => {
     const fetchItems = async () => {
       const response = await fetch(
-        "https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/cart.json"
+        `https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/users/${emailKey}/cart.json`
       );
 
       if (!response.ok) {
@@ -64,11 +64,11 @@ export const getFromCart = () => {
   };
 };
 
-export const deleteItemFromCart = (id) => {
+export const deleteItemFromCart = (id, emailKey) => {
   return async (dispatch) => {
     const deleteRequest = async () => {
       const response = await fetch(
-        `https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/cart/${id}.json`,
+        `https://react-ecommerce-store-128af-default-rtdb.firebaseio.com/users/${emailKey}/cart/${id}.json`,
         {
           method: "DELETE",
           headers: {
