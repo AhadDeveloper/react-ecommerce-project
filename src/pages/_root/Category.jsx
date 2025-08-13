@@ -12,16 +12,19 @@ import context from "../../context/context";
 
 const CategoryPage = () => {
   const dispatch = useDispatch();
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
 
   const { getItemFromLocalStorage } = useContext(context);
   const role = getItemFromLocalStorage()?.role;
 
-  const products = useSelector((state) => state.products.adminProducts);
+  const products = useSelector((state) =>
+    pathname.startsWith("/admin") && role === "admin"
+      ? state.products.adminProducts
+      : state.products.products
+  );
   const { categoryId } = useParams();
 
-  const categoryKey = Object.keys(products).find((key) => key === categoryId);
-  const categoryProducts = products[categoryKey];
+  const categoryProducts = products[categoryId];
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

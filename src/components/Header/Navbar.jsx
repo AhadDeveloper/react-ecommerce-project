@@ -18,6 +18,7 @@ const Navbar = () => {
   const { emailKey } = useEmailKey(ctx.getItemFromLocalStorage()?.email);
   const cart = useSelector((state) => state.cart.cart);
   const isSignin = ctx.getItemFromLocalStorage();
+  const role = ctx.getItemFromLocalStorage()?.role;
 
   const { doSearch } = useSearch();
   const searchInputRef = useRef();
@@ -30,15 +31,23 @@ const Navbar = () => {
 
   const searchHandler = useCallback(() => {
     const newProducts = doSearch(searchInputRef.current.value);
-    navigate("/search-data", { state: { newProducts, pathname } });
+    const targetPath =
+      pathname.startsWith("/admin") && role === "admin"
+        ? "/admin/search-data"
+        : "/search-data";
+    navigate(targetPath, { state: { newProducts, pathname } });
     searchInputRef.current.value = "";
-  }, [doSearch, pathname]);
+  }, [doSearch, pathname, navigate, role]);
 
   const secondSearchHandler = useCallback(() => {
     const newProducts = doSearch(secondSearchInputRef.current.value);
-    navigate("/search-data", { state: { newProducts, pathname } });
+    const targetPath =
+      pathname.startsWith("/admin") && role === "admin"
+        ? "/admin/search-data"
+        : "/search-data";
+    navigate(targetPath, { state: { newProducts, pathname } });
     secondSearchInputRef.current.value = "";
-  }, [doSearch, pathname]);
+  }, [doSearch, pathname, navigate, role]);
 
   return (
     <nav>

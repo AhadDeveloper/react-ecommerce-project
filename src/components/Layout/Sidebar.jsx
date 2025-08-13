@@ -7,7 +7,9 @@ import context from "../../context/context";
 
 const Sidebar = () => {
   const ctx = useContext(context);
+  const role = ctx.getItemFromLocalStorage()?.role;
   const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith("/admin");
 
   const [isHover, setIsHover] = useState(false);
 
@@ -43,17 +45,23 @@ const Sidebar = () => {
           >
             <li>All Products</li>
           </NavLink>
-          {allCategories.categories.map((category) => (
-            <NavLink
-              to={category.link}
-              state={{ pathname }}
-              onClick={categoryHandler}
-              className={({ isActive }) => `${isActive && "text-blue-600"}`}
-              key={category.name}
-            >
-              <li>{category.name}</li>
-            </NavLink>
-          ))}
+          {allCategories.categories.map((category) => {
+            const link =
+              isAdmin && role === "admin"
+                ? `/admin/${category.link}`
+                : category.link;
+            return (
+              <NavLink
+                to={link}
+                state={{ pathname }}
+                onClick={categoryHandler}
+                className={({ isActive }) => `${isActive && "text-blue-600"}`}
+                key={category.name}
+              >
+                <li>{category.name}</li>
+              </NavLink>
+            );
+          })}
         </ul>
       </div>
     );
