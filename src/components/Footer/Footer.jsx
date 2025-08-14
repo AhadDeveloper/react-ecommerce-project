@@ -107,7 +107,7 @@ const Footer = () => {
             </Link>
             <Link
               className="p-1 hover:border"
-              to="https://www.linkedin.com/in/muhammad-ahad-8268a8271/"
+              to="https://www.linkedin.com/in/muhammad-ahad-58b08727a/"
               target="_blank"
               rel="noopener noreferrer"
             >
